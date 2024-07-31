@@ -27,3 +27,28 @@ Danny has shared 3 key datasets for this case study:
 
 # Questions & Solutions
 
+#### 1. What is the total amount each customer spent at the restaurant?
+
+#### Solution:-
+
+```
+SELECT
+         customer_id,
+         SUM(price) AS Total_spent
+FROM
+         sales JOIN menu
+WHERE 
+         sales.product_id=menu.product_id
+GROUP BY
+         customer_id;
+```
+
+#### Output:-
+
+![Ans 1](https://github.com/user-attachments/assets/70ff6885-7640-42a8-9da7-c1508e4c7fad)
+
+- Customer A spent $76
+- Customer B spent $74
+- Customer C spent $36
+
+
