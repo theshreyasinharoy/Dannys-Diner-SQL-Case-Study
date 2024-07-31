@@ -51,4 +51,73 @@ GROUP BY
 - Customer B spent $74
 - Customer C spent $36
 
+---
+
+#### 2. How many days has each customer visited the restaurant?
+
+#### Solution:-
+```
+SELECT
+          customer_id,
+          COUNT(DISTINCT order_date) AS COUNT_OF_DAYS
+FROM
+          sales 
+GROUP BY
+          customer_id;
+```
+
+### Output:-
+
+![Ans 2](https://github.com/user-attachments/assets/479128fa-0ff0-45d6-905a-c42638251e60)
+
+- Customer A has visited the restaurant 4 days.
+- Customer B has visited the restaurant 6 days.
+- Customer C has visited the restaurant 2 days.
+---
+  
+#### 3. What was the first item from the menu purchased by each customer?
+
+#### Solution:-
+```
+WITH CALCULATE AS (
+SELECT
+       customer_id,
+       product_name,
+       order_date,
+       DENSE_RANK() over(partition by customer_id order by order_date) AS RANKS
+FROM
+       sales JOIN menu
+WHERE
+       sales.product_id=menu.product_id
+GROUP BY
+        customer_id,
+        product_name,
+        order_date
+)
+SELECT
+       customer_id,
+       product_name
+FROM
+       CALCULATE
+WHERE
+       RANKS=1
+```
+#### Output:-
+
+![Ans 3](https://github.com/user-attachments/assets/89802568-f19e-4046-902c-e9a3af9441c9)
+
+- Customer A placed an order for both curry and sushi simultaneously, making them the first items in the order.
+- Customer B's first order is curry.
+- Customer C's first order is ramen.
+---
+
+#### 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+
+#### Solution:- 
+
+
+
+
+  
+
 
