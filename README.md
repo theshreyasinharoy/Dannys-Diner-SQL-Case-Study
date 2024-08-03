@@ -141,6 +141,47 @@ WHERE
 
 Ramen is the item that was purchased the most by all customers and it was purchased 8 times.
 
+---
+
+#### 5. Which item was the most popular for each customer?
+
+#### Solution:- 
+```
+WITH RANKING AS (
+SELECT
+         customer_id,
+         product_name,
+         COUNT(sales.product_id) AS count_of_products,
+         DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY COUNT(sales.product_id) DESC) AS RANKS
+FROM
+         sales JOIN menu
+WHERE
+         sales.product_id=menu.product_id
+GROUP BY
+         customer_id,
+         product_name
+)
+
+SELECT
+      customer_id,
+      count_of_products,
+      product_name
+FROM
+      RANKING
+WHERE
+      RANKS=1;
+
+```
+#### Output:-
+
+![Ans 4 1](https://github.com/user-attachments/assets/a28219c0-cf9f-43bf-b83e-b741de5d5bad)
+
+- For both the customers A and C, ramen was the most popular item.
+- For customer B, all the three items were equally popular which are curry, sushi and ramen.
+
+
+
+
 
 
 
