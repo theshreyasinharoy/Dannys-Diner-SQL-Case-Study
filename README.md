@@ -179,6 +179,47 @@ WHERE
 - For both the customers A and C, ramen was the most popular item.
 - For customer B, all the three items were equally popular which are curry, sushi and ramen.
 
+---
+#### 6. Which item was purchased first by the customer after they became a member?
+
+#### Solution:- 
+```
+WITH RANKING AS (
+SELECT
+       sales.customer_id,
+       order_date,
+       product_name,
+       DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY order_date) AS RANKS
+FROM
+       sales JOIN menu JOIN members
+WHERE
+       sales.product_id=menu.product_id AND
+       sales.customer_id=members.customer_id AND
+       sales.order_date >= members.join_date
+)
+
+SELECT
+       customer_id,
+       product_name,
+       order_date
+FROM
+       RANKING
+WHERE
+       RANKS=1;
+```
+### Output:-
+
+![Ans 6](https://github.com/user-attachments/assets/a369b56f-5bf3-43d0-bcd5-0c97d560197b)
+
+- After becoming a member, A's first order was curry.
+- After becoming a member, B's first order was sushi.
+
+---
+
+
+
+
+
 
 
 
