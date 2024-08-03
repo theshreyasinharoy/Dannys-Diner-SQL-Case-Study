@@ -216,6 +216,44 @@ WHERE
 
 ---
 
+#### 7. Which item was purchased just before the customer became a member?
+
+#### Solution:- 
+```
+WITH RANKING AS (
+SELECT
+       sales.customer_id,
+       order_date,
+       product_name,
+       DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY order_date DESC) AS RANKS
+FROM
+       sales JOIN menu JOIN members
+WHERE
+       sales.product_id=menu.product_id AND
+       sales.customer_id=members.customer_id AND
+       sales.order_date < members.join_date
+)
+SELECT
+       customer_id,
+       product_name,
+       order_date
+FROM
+       RANKING
+WHERE
+       RANKS=1;
+```
+#### Output:-
+
+![Ans 7](https://github.com/user-attachments/assets/6b77c0bc-1657-4edb-9e0d-d973b502c542)
+
+- Just before becoming a member, A purchased 2 items sushi and curry.
+- Just before becoming a member, B purchased sushi.
+
+---
+
+
+
+
 
 
 
