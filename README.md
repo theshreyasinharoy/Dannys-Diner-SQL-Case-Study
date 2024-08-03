@@ -114,6 +114,32 @@ WHERE
 #### 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 
 #### Solution:- 
+```
+WITH RANKING AS (
+SELECT 
+          product_name,
+          COUNT(sales.PRODUCT_ID) AS TOTAL_COUNT,
+          rank() over(order by COUNT(sales.PRODUCT_ID) DESC ) AS RANKS
+FROM
+          sales JOIN menu
+WHERE
+	      sales.product_id=menu.product_id
+GROUP BY
+          product_name
+)     
+SELECT
+       product_name,
+       TOTAL_COUNT
+FROM
+       RANKING
+WHERE
+       RANKS=1;
+```
+#### Output:-
+
+![Ans 4](https://github.com/user-attachments/assets/eea13dfc-d857-42a1-b7ed-051b16ead093)
+
+Ramen is the item that was purchased the most by all customers and it was purchased 8 times.
 
 
 
