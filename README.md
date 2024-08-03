@@ -251,6 +251,43 @@ WHERE
 
 ---
 
+#### 8. What is the total items and amount spent for each member before they became a member?
+
+#### Solution:-
+```
+SELECT
+           sales.customer_id,
+           COUNT(sales.product_id) AS product_count,
+           SUM(price) AS total_spent
+FROM
+           sales JOIN menu JOIN members 
+WHERE
+           sales.customer_id=members.customer_id AND
+           sales.product_id=menu.product_id AND
+           order_date < join_date
+GROUP BY
+           sales.customer_id
+ORDER BY
+           sales.customer_id;
+```
+#### Output:-
+
+![Ans 8](https://github.com/user-attachments/assets/4844cbb2-ca51-4e46-b8e0-9636697ef39d)
+
+Before becoming members,
+
+- Customer A spent $25 on 2 items.
+- Customer B spent $40 on 3 items.
+
+---
+
+
+
+
+
+
+
+
 
 
 
