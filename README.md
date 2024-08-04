@@ -352,6 +352,43 @@ ORDER BY S.customer_id;
 
 ---
 
+## Bonus Questions
+
+#### Join All The Things
+
+#### Recreate the table with: customer_id, order_date, product_name, price, member (Y/N)
+
+#### Solution:-
+```
+SELECT
+         S.customer_id,
+         S.order_date,
+         M.product_name,
+         M.price,
+         CASE
+              WHEN order_date >= join_date THEN "Y"
+              ELSE "N" 
+         END AS member
+FROM
+         sales S LEFT JOIN menu M
+ON   
+         S.product_id=M.product_id LEFT JOIN members MB
+ON
+         S.customer_id=MB.customer_id
+ORDER BY
+         S.customer_id,
+         S.order_date;
+```
+#### Output:-
+
+![Ans 11](https://github.com/user-attachments/assets/62464c85-119b-4e59-a71d-feeb2037c551)
+
+---
+
+
+
+
+
 
 
 
