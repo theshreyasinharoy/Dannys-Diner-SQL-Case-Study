@@ -385,6 +385,56 @@ ORDER BY
 
 ---
 
+#### Rank All The Things
+
+#### Danny also requires further information about the ```ranking``` of customer products, but he purposely does not need the ranking for non-member purchases so he expects null ```ranking``` values for the records when customers are not yet part of the loyalty program.
+
+#### Solution:-
+```
+WITH membership AS (
+SELECT
+         S.customer_id,
+         S.order_date,
+         M.product_name,
+         M.price,
+         CASE
+              WHEN order_date >= join_date THEN "Y"
+              ELSE "N" 
+         END AS member
+FROM
+         sales S LEFT JOIN menu M
+ON   
+         S.product_id=M.product_id LEFT JOIN members MB
+ON
+         S.customer_id=MB.customer_id
+ORDER BY
+         S.customer_id,
+         S.order_date
+)
+
+SELECT
+        customer_id,
+        order_date,
+        product_name,
+        price,
+        member,
+        CASE
+             WHEN member = "N" THEN null
+             ELSE DENSE_RANK() OVER (PARTITION BY customer_id,member ORDER BY order_date)
+        END AS ranking
+FROM
+        membership
+```
+#### Output:-
+
+![Ans 12](https://github.com/user-attachments/assets/4b78c711-bb15-472c-8203-50440772cf77)
+
+---
+
+ 
+      
+
+
 
 
 
